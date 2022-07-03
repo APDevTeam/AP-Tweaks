@@ -1,0 +1,5 @@
+name: AP-Tweaks
+version: '${project.version}'
+main: io.github.apdevteam.aptweaks.APTweaks
+authors: [ TylerS1066 ]
+description: AP Specific Tweaks
