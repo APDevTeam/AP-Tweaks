@@ -16,14 +16,14 @@ public class UnbreakingV implements Listener {
         ItemStack result = event.getResult();
         if (result == null || result.getItemMeta() == null || !Utils.hasEnchantment(result, Enchantment.DURABILITY))
             return;
-        if (Utils.enchantmentLevel(result, Enchantment.DURABILITY) != MAX_VANILLA_LEVEL)
+        if (Utils.getEnchantment(result, Enchantment.DURABILITY) != MAX_VANILLA_LEVEL)
             return; // We only need to correct when the result is the max vanilla level
 
         int max = -1;
         for (ItemStack item : event.getInventory().getContents()) {
             if (item == null || item.getItemMeta() == null || !Utils.hasEnchantment(item, Enchantment.DURABILITY))
                 continue;
-            int unbreakingLevel = Utils.enchantmentLevel(item, Enchantment.DURABILITY);
+            int unbreakingLevel = Utils.getEnchantment(item, Enchantment.DURABILITY);
             if (unbreakingLevel > max)
                 max = unbreakingLevel;
         }

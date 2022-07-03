@@ -23,7 +23,7 @@ public class Utils {
         return enchantmentStorageMeta.hasStoredEnchant(enchantment);
     }
 
-    public static int enchantmentLevel(@Nullable ItemStack item, @NotNull Enchantment enchantment) {
+    public static int getEnchantment(@Nullable ItemStack item, @NotNull Enchantment enchantment) {
         if (item == null || item.getItemMeta() == null)
             return 0;
         if (item.containsEnchantment(enchantment))
@@ -50,8 +50,10 @@ public class Utils {
 
         // Enchanted books have a special type of metadata for their enchantments
         ItemMeta meta = item.getItemMeta();
-        if (!(meta instanceof EnchantmentStorageMeta))
+        if (!(meta instanceof EnchantmentStorageMeta)) {
+            item.addUnsafeEnchantment(enchantment, level);
             return;
+        }
 
         EnchantmentStorageMeta enchantmentStorageMeta = (EnchantmentStorageMeta) meta;
         if (enchantmentStorageMeta.hasStoredEnchant(enchantment))
