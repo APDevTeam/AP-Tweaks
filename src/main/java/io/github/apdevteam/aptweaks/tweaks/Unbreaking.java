@@ -1,6 +1,8 @@
 package io.github.apdevteam.aptweaks.tweaks;
 
 import io.github.apdevteam.aptweaks.Utils;
+
+import org.bukkit.Bukkit;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,8 +19,8 @@ public class Unbreaking implements Listener {
         ItemStack result = event.getResult();
         if (result == null || result.getItemMeta() == null || !Utils.hasEnchantment(result, Enchantment.DURABILITY))
             return;
-        if (Utils.getEnchantment(result, Enchantment.DURABILITY) != MAX_VANILLA_LEVEL)
-            return; // We only need to correct when the result is the max vanilla level
+        if (Utils.getEnchantment(result, Enchantment.DURABILITY) < MAX_VANILLA_LEVEL)
+            return; // We only need to correct when the result is the max vanilla level or higher
 
         int max = -1;
         int maxCount = -1;
