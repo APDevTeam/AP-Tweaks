@@ -8,6 +8,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.PrepareAnvilEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.Repairable;
 import org.jetbrains.annotations.NotNull;
 
 public class Unbreaking implements Listener {
@@ -46,6 +48,14 @@ public class Unbreaking implements Listener {
 
         // Set result level
         Utils.setEnchantment(result, Enchantment.DURABILITY, max);
+
+        // Set cost to zero if result level is max level
+        if (max == MAX_LEVEL && result.getItemMeta() instanceof Repairable) {
+            Repairable repairable = (Repairable) result.getItemMeta();
+            repairable.setRepairCost(0);
+            result.setItemMeta((ItemMeta) repairable);
+        }
+
         event.setResult(result);
     }
 }
