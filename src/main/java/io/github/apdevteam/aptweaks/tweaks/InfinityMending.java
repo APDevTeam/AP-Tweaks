@@ -1,6 +1,10 @@
 package io.github.apdevteam.aptweaks.tweaks;
 
 import io.github.apdevteam.aptweaks.Utils;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
@@ -12,35 +16,45 @@ import org.jetbrains.annotations.NotNull;
 public class InfinityMending implements Listener {
     @EventHandler
     public void onAnvilEvent(@NotNull PrepareAnvilEvent event) {
-        // This isn't yet functional since vanilla prevents the merging and we'd have to do it manually.
         ItemStack result = event.getResult();
-        if (result == null || result.getItemMeta() == null)
+        if (result != null)
             return;
-        if (result.getType() != Material.ENCHANTED_BOOK && result.getType() != Material.BOW)
-            return; // Result is neither an enchanted book nor a bow
-        if (!Utils.hasEnchantment(result, Enchantment.MENDING) && !Utils.hasEnchantment(result, Enchantment.ARROW_INFINITE))
-            return; // Result has neither mending nor infinity
 
-        int mending = -1;
-        int infinity = -1;
-        for (ItemStack item : event.getInventory().getContents()) {
-            if (item == null || item.getItemMeta() == null)
-                continue;
-            if (Utils.hasEnchantment(item, Enchantment.MENDING)) {
-                int mendingLevel = Utils.getEnchantment(item, Enchantment.MENDING);
-                if (mendingLevel > mending)
-                    mending = mendingLevel;
-            }
-            if (Utils.hasEnchantment(item, Enchantment.ARROW_INFINITE)) {
-                int infinityLevel = Utils.getEnchantment(item, Enchantment.ARROW_INFINITE);
-                if (infinityLevel > infinity)
-                    infinity = infinityLevel;
-            }
+        ItemStack[] contents = event.getInventory().getContents();
+        if (contents.length != 2)
+            return; // Only allow two items in the anvil
+
+        ItemStack one = contents[0];
+        ItemStack two = contents[1];
+        if (one == null || two == null)
+            return; // Both items must be present
+        if (!Utils.hasEnchantment(one, Enchantment.ARROW_INFINITE)
+            && !Utils.hasEnchantment(two, Enchantment.ARROW_INFINITE))
+            return; // Require one of the items to have the infinity enchantment
+        if (!Utils.hasEnchantment(one, Enchantment.MENDING)
+                && !Utils.hasEnchantment(two, Enchantment.MENDING))
+            return; // Require one of the items to have the mending enchantment
+        if (one.getType() != Material.ENCHANTED_BOOK && one.getType() != Material.BOW)
+            return; // Only allow enchanted books or bows in the first slot of the anvil
+        if (two.getType() != Material.ENCHANTED_BOOK)
+            return; // Only allow enchanted books in the second slot of the anvil
+
+        Map<Enchantment, Integer> resultEnchants = combine(Utils.getEnchantments(one), Utils.getEnchantments(two));
+        result = new ItemStack(one);
+        for (Map.Entry<Enchantment, Integer> entry : resultEnchants.entrySet()) {
+            result.addUnsafeEnchantment(entry.getKey(), entry.getValue());
         }
-        if (mending == -1 || infinity == -1)
-            return; // We were unable to detect a source items with mending and infinity
+        event.setResult(result);
+    }
 
-        Utils.setEnchantment(result, Enchantment.MENDING, mending);
-        Utils.setEnchantment(result, Enchantment.ARROW_INFINITE, infinity);
+    private Map<Enchantment, Integer> combine(Map<Enchantment, Integer> one, Map<Enchantment, Integer> two) {
+        Map<Enchantment, Integer> result = new HashMap<>(one);
+        for (Map.Entry<Enchantment, Integer> entry : two.entrySet()) {
+            if (result.containsKey(entry.getKey()))
+                continue; // Already have this enchantment
+
+            result.put(entry.getKey(), entry.getValue());
+        }
+        return result;
     }
 }

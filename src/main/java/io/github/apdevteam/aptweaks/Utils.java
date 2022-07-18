@@ -1,5 +1,8 @@
 package io.github.apdevteam.aptweaks;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
@@ -60,5 +63,17 @@ public class Utils {
             enchantmentStorageMeta.removeStoredEnchant(enchantment);
         enchantmentStorageMeta.addStoredEnchant(enchantment, level, true);
         item.setItemMeta(enchantmentStorageMeta);
+    }
+
+    public static Map<Enchantment, Integer> getEnchantments(@Nullable ItemStack item) {
+        if (item == null || item.getItemMeta() == null)
+            return new HashMap<>();
+        if (!item.getEnchantments().isEmpty())
+            return item.getEnchantments(); // Simple enchantments
+        if (!(item.getItemMeta() instanceof EnchantmentStorageMeta))
+            return new HashMap<>(); // No enchantments
+
+        EnchantmentStorageMeta enchantmentStorageMeta = (EnchantmentStorageMeta) item.getItemMeta();
+        return enchantmentStorageMeta.getStoredEnchants();
     }
 }
