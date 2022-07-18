@@ -8,7 +8,7 @@ public final class APTweaks extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        // getServer().getPluginManager().registerEvents(new InfinityMending(), this); // TODO
+        getServer().getPluginManager().registerEvents(new InfinityMending(), this);
         getServer().getPluginManager().registerEvents(new Unbreaking(), this);
     }
 

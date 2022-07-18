@@ -17,7 +17,7 @@ public class InfinityMending implements Listener {
     @EventHandler
     public void onAnvilEvent(@NotNull PrepareAnvilEvent event) {
         ItemStack result = event.getResult();
-        if (result != null)
+        if (result != null && result.getType() != Material.AIR)
             return;
 
         ItemStack[] contents = event.getInventory().getContents();
@@ -29,7 +29,7 @@ public class InfinityMending implements Listener {
         if (one == null || two == null)
             return; // Both items must be present
         if (!Utils.hasEnchantment(one, Enchantment.ARROW_INFINITE)
-            && !Utils.hasEnchantment(two, Enchantment.ARROW_INFINITE))
+                && !Utils.hasEnchantment(two, Enchantment.ARROW_INFINITE))
             return; // Require one of the items to have the infinity enchantment
         if (!Utils.hasEnchantment(one, Enchantment.MENDING)
                 && !Utils.hasEnchantment(two, Enchantment.MENDING))
@@ -39,7 +39,7 @@ public class InfinityMending implements Listener {
         if (two.getType() != Material.ENCHANTED_BOOK)
             return; // Only allow enchanted books in the second slot of the anvil
 
-        Map<Enchantment, Integer> resultEnchants = combine(Utils.getEnchantments(one), Utils.getEnchantments(two));
+        Map<Enchantment, Integer> resultEnchants = combine(Utils.getEnchantments(one), Utils.getEnchantments(two));        
         result = new ItemStack(one);
         for (Map.Entry<Enchantment, Integer> entry : resultEnchants.entrySet()) {
             result.addUnsafeEnchantment(entry.getKey(), entry.getValue());
