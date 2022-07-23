@@ -38,23 +38,13 @@ public class InfinityMending implements Listener {
             return; // Only allow enchanted books or bows in the first slot of the anvil
         if (two.getType() != Material.ENCHANTED_BOOK)
             return; // Only allow enchanted books in the second slot of the anvil
+            // TODO: Expand this to be more flexible
 
-        Map<Enchantment, Integer> resultEnchants = combine(Utils.getEnchantments(one), Utils.getEnchantments(two));        
+        Map<Enchantment, Integer> resultEnchants = Utils.combine(Utils.getEnchantments(one), Utils.getEnchantments(two));        
         result = new ItemStack(one);
         for (Map.Entry<Enchantment, Integer> entry : resultEnchants.entrySet()) {
-            result.addUnsafeEnchantment(entry.getKey(), entry.getValue());
+            Utils.setEnchantment(result, entry.getKey(), entry.getValue());
         }
         event.setResult(result);
-    }
-
-    private Map<Enchantment, Integer> combine(Map<Enchantment, Integer> one, Map<Enchantment, Integer> two) {
-        Map<Enchantment, Integer> result = new HashMap<>(one);
-        for (Map.Entry<Enchantment, Integer> entry : two.entrySet()) {
-            if (result.containsKey(entry.getKey()))
-                continue; // Already have this enchantment
-
-            result.put(entry.getKey(), entry.getValue());
-        }
-        return result;
     }
 }

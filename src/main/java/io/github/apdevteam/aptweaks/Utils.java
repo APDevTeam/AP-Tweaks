@@ -76,4 +76,28 @@ public class Utils {
         EnchantmentStorageMeta enchantmentStorageMeta = (EnchantmentStorageMeta) item.getItemMeta();
         return enchantmentStorageMeta.getStoredEnchants();
     }
+
+    public static Map<Enchantment, Integer> combine(Map<Enchantment, Integer> one, Map<Enchantment, Integer> two) {
+        Map<Enchantment, Integer> result = new HashMap<>(one);
+        for (Map.Entry<Enchantment, Integer> entry : two.entrySet()) {
+            Enchantment enchant = entry.getKey();
+            if (result.containsKey(enchant)) {
+                result.put(enchant, combine(enchant, result.get(enchant), entry.getValue()));
+                continue;
+            }
+
+            result.put(entry.getKey(), entry.getValue());
+        }
+        return result;
+    }
+
+    public static int combine(Enchantment enchant, int one, int two) {
+        if (one == enchant.getMaxLevel() || two == enchant.getMaxLevel())
+            return enchant.getMaxLevel(); // Already at max level
+
+        if (one == two)
+            return one + 1;
+
+        return Math.max(one, two);
+    }
 }
