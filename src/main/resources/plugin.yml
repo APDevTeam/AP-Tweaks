@@ -3,3 +3,4 @@ version: '${project.version}'
 main: io.github.apdevteam.aptweaks.APTweaks
 authors: [ TylerS1066 ]
 description: AP Specific Tweaks
+api-version: 1.14

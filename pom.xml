@@ -6,14 +6,14 @@
 
     <groupId>io.github.apdevteam</groupId>
     <artifactId>APTweaks</artifactId>
-    <version>0.2.0</version>
+    <version>0.3.0-a.1</version>
     <packaging>jar</packaging>
 
     <name>AP-Tweaks</name>
 
     <description>AP Specific Tweaks</description>
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>13</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -68,13 +68,13 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.12.2-R0.1-SNAPSHOT</version>
+            <version>1.14.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
-            <version>20.1.0</version>
+            <version>23.1.0</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
