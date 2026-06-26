@@ -19,17 +19,17 @@ public class Unbreaking implements Listener {
     @EventHandler
     public void onAnvilEvent(@NotNull PrepareAnvilEvent event) {
         ItemStack result = event.getResult();
-        if (result == null || result.getItemMeta() == null || !Utils.hasEnchantment(result, Enchantment.DURABILITY))
+        if (result == null || result.getItemMeta() == null || !Utils.hasEnchantment(result, Enchantment.UNBREAKING))
             return;
-        if (Utils.getEnchantment(result, Enchantment.DURABILITY) < MAX_VANILLA_LEVEL)
+        if (Utils.getEnchantment(result, Enchantment.UNBREAKING) < MAX_VANILLA_LEVEL)
             return; // We only need to correct when the result is the max vanilla level or higher
 
         int max = -1;
         int maxCount = -1;
         for (ItemStack item : event.getInventory().getContents()) {
-            if (item == null || item.getItemMeta() == null || !Utils.hasEnchantment(item, Enchantment.DURABILITY))
+            if (item == null || item.getItemMeta() == null || !Utils.hasEnchantment(item, Enchantment.UNBREAKING))
                 continue;
-            int unbreakingLevel = Utils.getEnchantment(item, Enchantment.DURABILITY);
+            int unbreakingLevel = Utils.getEnchantment(item, Enchantment.UNBREAKING);
             if (unbreakingLevel > max) {
                 max = unbreakingLevel;
                 maxCount = 1;
@@ -47,7 +47,7 @@ public class Unbreaking implements Listener {
         }
 
         // Set result level
-        Utils.setEnchantment(result, Enchantment.DURABILITY, max);
+        Utils.setEnchantment(result, Enchantment.UNBREAKING, max);
 
         // Set cost to zero if result level is max level
         if (max == MAX_LEVEL && result.getItemMeta() instanceof Repairable) {

@@ -8,13 +8,13 @@ repositories {
     gradlePluginPortal()
     mavenLocal()
     mavenCentral()
-    maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
+    maven("https://repo.papermc.io/repository/maven-public/")
     maven { githubPackage("apdevteam/movecraft")(this) }
 }
 
 dependencies {
     api("org.jetbrains:annotations-java5:24.1.0")
-    compileOnly("org.spigotmc:spigot-api:1.14.4-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.20.6-R0.1-SNAPSHOT")
     compileOnly("net.countercraft:movecraft:+")
 }
 
