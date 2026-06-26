@@ -38,7 +38,7 @@ jobs:
 
     - name: Publish to GitHub Packages
       if: ${{ github.event_name == 'release' }}
-      run: ./gradlew publish --parallel
+      run: ./gradlew publish --parallel --info --stacktrace
       env:
         GITHUB_ACTOR: ${{ github.actor }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
