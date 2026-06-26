@@ -19,7 +19,16 @@ dependencies {
 }
 
 group = "io.github.apdevteam"
-version = "0.3.1"
+version = System.getenv("RELEASE_VERSION")?.takeIf { it.isNotBlank() }
+    ?: runCatching {
+        val sha = ProcessBuilder("git", "rev-parse", "--short", "HEAD")
+            .start().inputStream.bufferedReader().readLine() ?: "unknown"
+        val tag = ProcessBuilder("git", "describe", "--tags", "--abbrev=0")
+            .start().inputStream.bufferedReader().readLine() ?: "untagged"
+        val dirty = ProcessBuilder("git", "status", "--porcelain")
+            .start().inputStream.bufferedReader().readLine() != null
+        if (dirty) "$tag+$sha-dirty" else "$tag+$sha"
+    }.getOrElse { "unknown" }
 description = "AP-Tweaks"
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
