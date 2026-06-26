@@ -40,6 +40,7 @@ jobs:
       if: ${{ github.event_name == 'release' }}
       run: ./gradlew publish --parallel
       env:
+        GITHUB_ACTOR: ${{ github.actor }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         RELEASE_VERSION: ${{ github.event.release.tag_name }}
 
