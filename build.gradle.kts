@@ -49,7 +49,7 @@ publishing {
     publications {
         create<MavenPublication>("maven") {
             groupId = "io.github.apdevteam"
-            artifactId = "AP-Tweaks"
+            artifactId = "ap-tweaks"
             version = "${project.version}"
 
             artifact(tasks.jar)
