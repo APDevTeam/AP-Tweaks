@@ -1,7 +1,7 @@
 plugins {
     `java-library`
     `maven-publish`
-    id("io.github.apdevteam.github-packages") version "1.2.2"
+    id("io.github.apdevteam.github-packages") version "1.2.3"
 }
 
 repositories {
